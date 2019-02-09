@@ -1,22 +1,39 @@
-NAME		=	fillit
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: osfally <osfally@student.42.fr>            +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2019/02/09 09:21:23 by osfally           #+#    #+#              #
+#    Updated: 2019/02/09 15:17:36 by osfally          ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
-SCR_PATH	=	srcs
-SRC_NAME	=
+#executable name
+NAME		:=	fillit
 
-CPPFLAGS	=	-Iinclude
+SCR_PATH	:=	src
+SRC_NAME	:=	main.c \
+				reader.c \
+				solver.c \
 
-OBJ_PATH	=	obj
-OBJ_NAME	=	$(SRC_NAME:.c=.o)
+CPPFLAGS	:=	-Iincludes
 
-SRC			=	$(addprefix $(SRC_PATH)/,$(SRC_NAME))
-OBJ			=	$(addprefix $(OBJ_PATH)/,$(OBJ_NAME))
+OBJ_PATH	:=	obj
+OBJ_NAME	:=	$(SRC_NAME:.c=.o)
 
-LDFLAGS		=	-Llibft_shp/
-LDLIBS		=	-lft
+SRC			:=	$(addprefix $(SRC_PATH)/,$(SRC_NAME))
+OBJ			:=	$(addprefix $(OBJ_PATH)/,$(OBJ_NAME))
 
-CC			=	clang
+LDFLAGS		:=	-Llibft_shp/
+LDLIBS		:=	-lft
 
-CFLAGS		=	-Wall -Wextra -Werror
+CC			:=	clang
+
+CFLAGS		:=	-Wall -Wextra -Werror
+OFLAGS		:=	-ansi -pedantic
+CFLAGS		+=	$(OFLAGS)
 
 .PHONY: all, clean, fclean, re, norme
 
@@ -25,7 +42,7 @@ all: $(NAME)
 $(NAME): $(OBJ)
 	$(CC) $(LDFLAGS) $(LDLIBS) $^ -o $@
 
-$(OBJ_PATH)%.o: $(SRC_PATH)%.c
+$(OBJ_PATH)/%.o: $(SRC_PATH)/%.c
 	@mkdir $(OBJ_PATH) 2> /dev/null || true
 	$(CC) $(CFLAGS) $(CPPFLAGS) -o $@ -c $<
 
