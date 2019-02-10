@@ -6,7 +6,7 @@
 /*   By: osfally <osfally@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/09 11:51:40 by osfally           #+#    #+#             */
-/*   Updated: 2019/02/09 14:09:21 by osfally          ###   ########.fr       */
+/*   Updated: 2019/02/09 19:15:47 by osfally          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 typedef struct		s_etriminos
 {
 		char		letter;
-		char		**pos;
+		int			*pos;
 }					t_etriminos;
 
 typedef struct		s_map
