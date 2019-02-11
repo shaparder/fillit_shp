@@ -6,21 +6,22 @@
 /*   By: osfally <osfally@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/08 18:38:50 by osfally           #+#    #+#             */
-/*   Updated: 2019/02/10 09:17:51 by osfally          ###   ########.fr       */
+/*   Updated: 2019/02/10 15:12:06 by osfally          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft_shp/libft.h"
+#include "../libft/includes/libft.h"
 #include "../includes/fillit.h"
 #include <fcntl.h>
 
-void print_square(t_map *map)
-{
-}
 
-t_map *solve_tetris(t_list *list)
+/* void print_square(t_map *map)
 {
-}
+} */
+
+/* t_map *solve_tetris(t_list *list)
+{
+} */
 
 /*
 **	Store the positions of the blocks of the tetriminos in an int array.
@@ -36,12 +37,18 @@ int		*get_pos(char *buf)
 	i = 0;
 	j = 0;
 	k = 0;
+	pos = malloc(sizeof(int) * 4);
 	while (buf[i])
 	{
 		if (buf[i] == '#')
 			pos[k++] = j;
 		i++;
 		j < 4 ? (j++) : (j = 0);
+	}
+
+	for(size_t g = 0; g < 4; g++)
+	{
+		printf("%i", pos[g]);
 	}
 	return(pos);
 }
@@ -63,10 +70,11 @@ t_list *read_tetris(int fd)
 	letter = 'A';
 	while ((count = read(fd, buf, 21)) >= 20)
 	{
+		pute = (t_etriminos *)malloc(sizeof(t_etriminos));
 		pute->letter = letter++;
 		pute->pos = get_pos(buf);
 		ft_lstadd(&list, ft_lstnew(pute, sizeof(t_etriminos)));
-		ft_bzero(buf, 21);
+		ft_memdel((void **)&buf);
 	}
 	ft_lstrev(&list);
 	close(fd);
@@ -82,7 +90,7 @@ t_list *read_tetris(int fd)
 int main(int argc, char **argv)
 {
 	t_list		*tetriminos_list;
-	t_map		*square;
+	// t_map		*square;
 
 	if (argc != 2)
 	{
@@ -94,9 +102,9 @@ int main(int argc, char **argv)
 		ft_putstr("invalid file.");
 		return (1);
 	}
-	square = solve_tetris(tetriminos_list);
-	print_square(square);
-	free(square);
+	// square = solve_tetris(tetriminos_list);
+	// print_square(square);
+	// free(square);
 	free(tetriminos_list);
 	return (0);
 }

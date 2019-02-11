@@ -1,33 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fillit.h                                           :+:      :+:    :+:   */
+/*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: osfally <osfally@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/02/09 11:51:40 by osfally           #+#    #+#             */
-/*   Updated: 2019/02/10 16:02:44 by osfally          ###   ########.fr       */
+/*   Created: 2018/12/04 15:46:57 by osfally           #+#    #+#             */
+/*   Updated: 2019/02/10 11:41:02 by osfally          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FILLIT_H
-# define FILLIT_H
-# include "../libft/includes/libft.h"
+#include "../../includes/libft.h"
 
-typedef struct		s_etriminos
+char	*ft_strjoin(char const *s1, char const *s2)
 {
-		char		letter;
-		int			*pos;
-}					t_etriminos;
+	char			*str;
+	size_t			len;
 
-typedef struct		s_map
-{
-		int			size;
-		char		**array;
-}					t_map;
-
-t_list *read_tetris(int fd);
-int		*get_pos(char *buf);
-
-
-#endif
+	if (s1 == NULL || s2 == NULL)
+		return (NULL);
+	len = (ft_strlen(s1) + ft_strlen(s2) + 1);
+	MACH(str = (char *)malloc(sizeof(char) * (len)), NULL);
+	ft_strcpy(str, s1);
+	ft_strcat(str, s2);
+	return (str);
+}

@@ -1,33 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fillit.h                                           :+:      :+:    :+:   */
+/*   ft_memchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: osfally <osfally@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/02/09 11:51:40 by osfally           #+#    #+#             */
-/*   Updated: 2019/02/10 16:02:44 by osfally          ###   ########.fr       */
+/*   Created: 2018/12/01 19:18:01 by osfally           #+#    #+#             */
+/*   Updated: 2019/02/10 11:36:36 by osfally          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FILLIT_H
-# define FILLIT_H
-# include "../libft/includes/libft.h"
+#include "../../includes/libft.h"
 
-typedef struct		s_etriminos
+void	*ft_memchr(const void *s, int c, size_t len)
 {
-		char		letter;
-		int			*pos;
-}					t_etriminos;
+	unsigned char	*ss;
+	size_t			i;
 
-typedef struct		s_map
-{
-		int			size;
-		char		**array;
-}					t_map;
-
-t_list *read_tetris(int fd);
-int		*get_pos(char *buf);
-
-
-#endif
+	i = 0;
+	ss = (unsigned char *)s;
+	while (i < len)
+	{
+		if ((*ss) == ((unsigned char)c))
+			return (ss);
+		i++;
+		ss++;
+	}
+	return (NULL);
+}

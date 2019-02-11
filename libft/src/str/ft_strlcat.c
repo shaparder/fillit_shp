@@ -1,33 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fillit.h                                           :+:      :+:    :+:   */
+/*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: osfally <osfally@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/02/09 11:51:40 by osfally           #+#    #+#             */
-/*   Updated: 2019/02/10 16:02:44 by osfally          ###   ########.fr       */
+/*   Created: 2018/12/02 01:16:30 by osfally           #+#    #+#             */
+/*   Updated: 2019/02/10 11:41:02 by osfally          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FILLIT_H
-# define FILLIT_H
-# include "../libft/includes/libft.h"
+#include "../../includes/libft.h"
 
-typedef struct		s_etriminos
+size_t	ft_strlcat(char *dst, const char *src, size_t dst_len)
 {
-		char		letter;
-		int			*pos;
-}					t_etriminos;
+	size_t	i;
+	size_t	j;
+	size_t	k;
 
-typedef struct		s_map
-{
-		int			size;
-		char		**array;
-}					t_map;
-
-t_list *read_tetris(int fd);
-int		*get_pos(char *buf);
-
-
-#endif
+	i = 0;
+	k = ft_strlen(src);
+	while (dst[i] && i < dst_len)
+		i++;
+	if (i != dst_len)
+	{
+		j = 0;
+		while (src[j] && j < dst_len - i - 1)
+		{
+			dst[i + j] = src[j];
+			j++;
+		}
+		dst[i + j] = '\0';
+	}
+	return ((size_t)(i + k));
+}

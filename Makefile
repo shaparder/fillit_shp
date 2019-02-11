@@ -6,56 +6,61 @@
 #    By: osfally <osfally@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/09 09:21:23 by osfally           #+#    #+#              #
-#    Updated: 2019/02/09 15:17:36 by osfally          ###   ########.fr        #
+#    Updated: 2019/02/10 16:13:07 by osfally          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-#executable name
-NAME		:=	fillit
+# executable name
+NAME	:= fillit
 
-SCR_PATH	:=	src
-SRC_NAME	:=	main.c \
-				reader.c \
-				solver.c \
+# directories
+SRC_DIR	:= ./src
+INC_DIR	:= ./includes
+OBJ_DIR	:= ./obj
+LIB_DIR	:= ./libft
 
-CPPFLAGS	:=	-Iincludes
+# src / obj files
+SRC		:= main.c
 
-OBJ_PATH	:=	obj
-OBJ_NAME	:=	$(SRC_NAME:.c=.o)
+OBJ		:= $(addprefix $(OBJ_DIR)/,$(SRC:.c=.o))
 
-SRC			:=	$(addprefix $(SRC_PATH)/,$(SRC_NAME))
-OBJ			:=	$(addprefix $(OBJ_PATH)/,$(OBJ_NAME))
+# compiler and flags
+CC		:= gcc
+CFLAGS	:= -Wall -Wextra -Werror -pedantic -std=c99
+DEBUG	:=	-fsanitize=address -fsanitize=undefined -g
+# CFLAGS	+= $(OFLAGS)
+OFLAGS	:= -pipe -flto
 
-LDFLAGS		:=	-Llibft_shp/
-LDLIBS		:=	-lft
+# libraries
+L_FT	:= $(LIB_DIR)
 
-CC			:=	clang
+include $(L_FT)/libft.mk
 
-CFLAGS		:=	-Wall -Wextra -Werror
-OFLAGS		:=	-ansi -pedantic
-CFLAGS		+=	$(OFLAGS)
+.PHONY: all clean fclean re
 
-.PHONY: all, clean, fclean, re, norme
+all:
+	@mkdir -p $(OBJ_DIR)
+	@$(MAKE) -C $(L_FT) --no-print-directory
+	@$(MAKE) $(NAME) --no-print-directory
 
-all: $(NAME)
+$(OBJ_DIR)/%.o:$(SRC_DIR)/%.c
+	$(CC) $(CFLAGS) $(LIB_INC) -I $(INC_DIR) -o $@ -c $<
 
 $(NAME): $(OBJ)
-	$(CC) $(LDFLAGS) $(LDLIBS) $^ -o $@
-
-$(OBJ_PATH)/%.o: $(SRC_PATH)/%.c
-	@mkdir $(OBJ_PATH) 2> /dev/null || true
-	$(CC) $(CFLAGS) $(CPPFLAGS) -o $@ -c $<
+	$(CC) $(OFLAGS) $(OBJ) $(LIB_LNK) -o $(NAME)
 
 clean:
-	rm -fv $(OBJ)
-	@rmdir $(OBJ_PATH) 2> /dev/null || true
+	@rm -rf $(OBJ_DIR)
+	@echo "Objects cleaned."
 
 fclean: clean
-	rm -fv $(NAME)
+	@rm -rf $(NAME)
+	@echo "Objects and executable cleaned."
 
-re: fclean all
+re:
+	@$(MAKE) fclean --no-print-directory
+	@$(MAKE) all --no-print-directory
 
-norme:
-	norminette $(SRC)
-	norminette $(CPPFLAGS)*.h
-
+relibs:
+	@$(MAKE) -C $(L_FT) re --no-print-directory
+	@$(MAKE) re --no-print-directory

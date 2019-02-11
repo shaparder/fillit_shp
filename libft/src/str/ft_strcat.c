@@ -1,33 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fillit.h                                           :+:      :+:    :+:   */
+/*   ft_strcat.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: osfally <osfally@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/02/09 11:51:40 by osfally           #+#    #+#             */
-/*   Updated: 2019/02/10 16:02:44 by osfally          ###   ########.fr       */
+/*   Created: 2018/10/30 17:34:46 by osfally           #+#    #+#             */
+/*   Updated: 2019/02/10 11:41:02 by osfally          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FILLIT_H
-# define FILLIT_H
-# include "../libft/includes/libft.h"
+#include "../../includes/libft.h"
 
-typedef struct		s_etriminos
+char	*ft_strcat(char *dest, const char *src)
 {
-		char		letter;
-		int			*pos;
-}					t_etriminos;
+	int		i;
+	int		j;
 
-typedef struct		s_map
-{
-		int			size;
-		char		**array;
-}					t_map;
-
-t_list *read_tetris(int fd);
-int		*get_pos(char *buf);
-
-
-#endif
+	i = ft_strlen(dest);
+	j = 0;
+	while (src[j])
+	{
+		dest[i] = src[j];
+		j++;
+		i++;
+	}
+	dest[i] = '\0';
+	return (dest);
+}

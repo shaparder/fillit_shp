@@ -1,33 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fillit.h                                           :+:      :+:    :+:   */
+/*   ft_lstmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: osfally <osfally@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/02/09 11:51:40 by osfally           #+#    #+#             */
-/*   Updated: 2019/02/10 16:02:44 by osfally          ###   ########.fr       */
+/*   Created: 2018/12/08 03:00:33 by osfally           #+#    #+#             */
+/*   Updated: 2019/02/10 11:31:47 by osfally          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FILLIT_H
-# define FILLIT_H
-# include "../libft/includes/libft.h"
+#include "../../includes/libft.h"
 
-typedef struct		s_etriminos
+t_list	*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem))
 {
-		char		letter;
-		int			*pos;
-}					t_etriminos;
+	t_list	*head;
 
-typedef struct		s_map
-{
-		int			size;
-		char		**array;
-}					t_map;
-
-t_list *read_tetris(int fd);
-int		*get_pos(char *buf);
-
-
-#endif
+	if (lst)
+	{
+		head = f(lst);
+		head->next = ft_lstmap(lst->next, f);
+		return (head);
+	}
+	return (NULL);
+}

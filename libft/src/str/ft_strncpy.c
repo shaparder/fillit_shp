@@ -1,33 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fillit.h                                           :+:      :+:    :+:   */
+/*   ft_strncpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: osfally <osfally@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/02/09 11:51:40 by osfally           #+#    #+#             */
-/*   Updated: 2019/02/10 16:02:44 by osfally          ###   ########.fr       */
+/*   Created: 2018/12/04 12:21:02 by osfally           #+#    #+#             */
+/*   Updated: 2019/02/10 11:41:02 by osfally          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FILLIT_H
-# define FILLIT_H
-# include "../libft/includes/libft.h"
+#include "../../includes/libft.h"
 
-typedef struct		s_etriminos
+char	*ft_strncpy(char *s1, const char *s2, size_t len)
 {
-		char		letter;
-		int			*pos;
-}					t_etriminos;
+	size_t	slen;
+	size_t	i;
 
-typedef struct		s_map
-{
-		int			size;
-		char		**array;
-}					t_map;
-
-t_list *read_tetris(int fd);
-int		*get_pos(char *buf);
-
-
-#endif
+	i = 0;
+	slen = ft_strlen((char *)s2);
+	while (i < len)
+	{
+		if (i <= slen)
+			s1[i] = s2[i];
+		else
+			s1[i] = '\0';
+		i++;
+	}
+	return (s1);
+}

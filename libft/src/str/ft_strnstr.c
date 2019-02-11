@@ -1,33 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fillit.h                                           :+:      :+:    :+:   */
+/*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: osfally <osfally@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/02/09 11:51:40 by osfally           #+#    #+#             */
-/*   Updated: 2019/02/10 16:02:44 by osfally          ###   ########.fr       */
+/*   Created: 2018/12/02 17:17:54 by osfally           #+#    #+#             */
+/*   Updated: 2019/02/10 11:41:02 by osfally          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FILLIT_H
-# define FILLIT_H
-# include "../libft/includes/libft.h"
+#include "../../includes/libft.h"
 
-typedef struct		s_etriminos
+char	*ft_strnstr(const char *str, const char *substr, size_t len)
 {
-		char		letter;
-		int			*pos;
-}					t_etriminos;
+	size_t	x;
+	size_t	y;
 
-typedef struct		s_map
-{
-		int			size;
-		char		**array;
-}					t_map;
-
-t_list *read_tetris(int fd);
-int		*get_pos(char *buf);
-
-
-#endif
+	x = 0;
+	y = 0;
+	if (substr[0] == '\0')
+		return ((char *)str);
+	while (str[x] && x < len)
+	{
+		if (str[x] == substr[y])
+			y++;
+		else
+		{
+			x -= y;
+			y = 0;
+		}
+		if (substr[y] == '\0')
+			return ((char *)(str + x - y + 1));
+		x++;
+	}
+	return (NULL);
+}

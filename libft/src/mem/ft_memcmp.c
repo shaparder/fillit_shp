@@ -1,33 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fillit.h                                           :+:      :+:    :+:   */
+/*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: osfally <osfally@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/02/09 11:51:40 by osfally           #+#    #+#             */
-/*   Updated: 2019/02/10 16:02:44 by osfally          ###   ########.fr       */
+/*   Created: 2018/12/02 00:10:22 by osfally           #+#    #+#             */
+/*   Updated: 2019/02/10 11:36:34 by osfally          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FILLIT_H
-# define FILLIT_H
-# include "../libft/includes/libft.h"
+#include "../../includes/libft.h"
 
-typedef struct		s_etriminos
+int		ft_memcmp(const void *s1, const void *s2, size_t n)
 {
-		char		letter;
-		int			*pos;
-}					t_etriminos;
+	unsigned const char		*c1;
+	unsigned const char		*c2;
 
-typedef struct		s_map
-{
-		int			size;
-		char		**array;
-}					t_map;
-
-t_list *read_tetris(int fd);
-int		*get_pos(char *buf);
-
-
-#endif
+	c1 = (unsigned char *)s1;
+	c2 = (unsigned char *)s2;
+	if (n > 0)
+	{
+		while (n)
+		{
+			if (*c1 != *c2)
+				return (*c1 - *c2);
+			c1++;
+			c2++;
+			n--;
+		}
+	}
+	return (0);
+}
