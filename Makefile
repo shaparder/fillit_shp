@@ -6,7 +6,7 @@
 #    By: osfally <osfally@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/09 09:21:23 by osfally           #+#    #+#              #
-#    Updated: 2019/02/10 20:12:10 by osfally          ###   ########.fr        #
+#    Updated: 2019/02/11 18:28:28 by osfally          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,22 +27,30 @@ OBJ			:=	$(addprefix $(OBJ_DIR)/,$(SRC:.c=.o))
 # compiler and flags
 CC			:=	gcc
 CFLAGS		:=	-Wall -Wextra -Werror -pedantic -std=c99
-DEBUG		:=	-fsanitize=address -fsanitize=undefined -g
-# CFLAGS	+= $(OFLAGS)
+DFLAGS		:=	-fsanitize=address -g
 OFLAGS		:=	-pipe -flto
+# CFLAGS		+= $(OFLAGS)
+
+# uncomment next line to use sanitizer debug
+#CFLAGS		+=	$(DFLAGS)
+
+# libraries
+LIB_INC		:=	$(LIB_DIR)/includes
+LIB_EXC		:=	$(LIB_DIR)/libft.a
 
 .PHONY: all clean fclean re
 
-all: $(NAME)
+all:
 	@mkdir -p $(OBJ_DIR)
-	@make -C $(LIB_DIR)
-	@make $(NAME)
+	@$(MAKE) -C $(LIB_DIR) >/dev/null || make
+	@$(MAKE) $(NAME)
+	@echo "Executable created."
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	$(CC) $(CFLAGS) -Ilibft/includes -I $(INC_DIR) -o $@ -c $<
+	@$(CC) $(CFLAGS) -I $(LIB_INC) -I $(INC_DIR) -o $@ -c $<
 
 $(NAME): $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ)  -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJ) -o $(NAME) $(LIB_EXC)
 
 clean:
 	@rm -rf $(OBJ_DIR)
@@ -50,12 +58,10 @@ clean:
 
 fclean: clean
 	@rm -rf $(NAME)
-	@echo "Objects and executable cleaned."
+	@echo "Executable cleaned."
 
-re:
-	@$(MAKE) fclean --no-print-directory
-	@$(MAKE) all --no-print-directory
+re: fclean all
 
 relibs:
-	@$(MAKE) -C $(L_FT) re --no-print-directory
-	@$(MAKE) re --no-print-directory
+	@$(MAKE) -C $(LIB_DIR) re
+	@$(MAKE) re
