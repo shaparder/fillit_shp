@@ -6,7 +6,7 @@
 /*   By: osfally <osfally@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/08 18:38:50 by osfally           #+#    #+#             */
-/*   Updated: 2019/02/12 13:05:43 by osfally          ###   ########.fr       */
+/*   Updated: 2019/02/12 15:47:54 by osfally          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,10 +88,32 @@ int				*get_pos(char *buf)
 ** Check connections of each block
 */
 
-int				connections(char *buf)
+int				check_connections(char *buf)
 {
+	int		connections;
+	int		i;
 
-	return (0);
+	i = 0;
+	connections = 0;
+	while(buf[i])
+	{
+		if (buf[i] == '#')
+		{
+			if (i <= 13 && buf[i + 5] == '#')
+				connections++;
+			if (i >= 5 && buf[i - 5] == '#')
+				connections++;
+			if (i <= 17 && buf[i + 1] == '#')
+				connections++;
+			if (i >= 1 && buf[i - 1] == '#')
+				connections++;
+		}
+		i++;
+	}
+	if (connections != 6 && connections != 8)
+		return (1);
+	else
+		return (0);
 }
 
 /*
@@ -120,7 +142,7 @@ int				valid_format(char *buf, int count)
 	}
 	if (count == 21 && buf[20] != '\n')
 		return (4);
-	if (connections(buf))
+	if (check_connections(buf))
 		return (5);
 	return (0);
 }
@@ -164,7 +186,7 @@ t_list			*read_file(int fd)
 		{
 			ft_memdel((void **)&buf);
 			close(fd);
-			return (NULL);
+			return (free_list(tetriminos_list));
 		}
 		ft_lstadd(&tetriminos_list, ft_lstnew(tetriminos, sizeof(t_etriminos)));
 		//ft_memdel((void **)&tetriminos);
@@ -198,6 +220,6 @@ int				main(int argc, char **argv)
 	// square = solve_tetris(tetriminos_list);
 	// print_solution(square);
 	// free(square);
-	free_list(tetriminos_list);
+	//free_list(tetriminos_list);
 	return (0);
 }
