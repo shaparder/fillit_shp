@@ -6,7 +6,7 @@
 /*   By: osfally <osfally@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/08 18:38:50 by osfally           #+#    #+#             */
-/*   Updated: 2019/02/11 22:27:23 by osfally          ###   ########.fr       */
+/*   Updated: 2019/02/12 13:05:43 by osfally          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,32 +31,31 @@
 void			free_tetriminos(t_etriminos *tetriminos)
 {
 	ft_memdel((void **)(&(tetriminos->pos)));
-	//ft_memdel((void **)(&(tetriminos->letter)));
-	//ft_memdel((void **)tetriminos);
+	ft_memdel((void **)(&tetriminos));
 }
 
 /*
 ** Free the list structure.
 */
 
-t_list			*free_list(t_list *list)
+t_list			*free_list(t_list *tetriminos_list)
 {
 	t_etriminos	*tetriminos;
 	t_list	*next;
 
-	while (list)
+	while (tetriminos_list)
 	{
-		tetriminos = list->content;
-		next = list->next;
+		tetriminos = (t_etriminos *)tetriminos_list->content;
+		next = tetriminos_list->next;
 		free_tetriminos(tetriminos);
-		ft_memdel((void **)list);
-		list = next;
+		ft_memdel((void **)tetriminos_list);
+		tetriminos_list = next;
 	}
 	return (NULL);
 }
 
 /*
-**	Store the positions of the blocks of the tetriminos in an int array, and puts it top left of the "map".
+** Store the positions of the blocks of the tetriminos in an int array, and puts it top left of the "map".
 */
 
 int				*get_pos(char *buf)
@@ -82,12 +81,48 @@ int				*get_pos(char *buf)
 		while (min-- > 0 && ((k = 4) != 0))
 			while (k > 0)
 				pos[--k]--;
-	for(size_t g = 0; g < 4; g++)
-	{
-		printf("%i", pos[g]);
-	}
-	printf("\n");
 	return(pos);
+}
+
+/*
+** Check connections of each block
+*/
+
+int				connections(char *buf)
+{
+
+	return (0);
+}
+
+/*
+** Check if the file is in the good format.
+*/
+
+int				valid_format(char *buf, int count)
+{
+	int		i;
+	int		bloks;
+
+	i = 0;
+	bloks = 0;
+	while (i < 20)
+	{
+		if (i != 4 && i != 9 && i != 14 && i != 19)
+		{
+			if (buf[i] != '.' && buf[i] != '#')
+				return (1);
+			else if (buf[i] == '#' && ++bloks > 4)
+				return (2);
+		}
+		else if (buf[i] != '\n')
+			return (3);
+		i++;
+	}
+	if (count == 21 && buf[20] != '\n')
+		return (4);
+	if (connections(buf))
+		return (5);
+	return (0);
 }
 
 /*
@@ -102,6 +137,8 @@ t_etriminos		*create_tetriminos(char letter, char *buf)
 	tetriminos->letter = letter;
 	printf("tetriletter = %c\n", letter);
 	tetriminos->pos = get_pos(buf);
+	printf("tetriminos->pos = %i%i%i%i\n\n", tetriminos->pos[0],
+		tetriminos->pos[1], tetriminos->pos[2], tetriminos->pos[3]);
 	return(tetriminos);
 }
 
@@ -114,27 +151,27 @@ t_list			*read_file(int fd)
 	int			count;
 	char		letter;
 	char		*buf;
-	t_list		*list;
+	t_list		*tetriminos_list;
 	t_etriminos	*tetriminos;
 
-	list = NULL;
+	tetriminos_list = NULL;
 	buf = ft_strnew(21);
 	letter = 'A';
 	printf("tetriminos reading...\n\n");
 	while ((count = read(fd, buf, 21)) >= 20)
 	{
-		if ((tetriminos = create_tetriminos(letter++, buf)) == NULL)
+		if (valid_format(buf, count) != 0 || (tetriminos = create_tetriminos(letter++, buf)) == NULL)
 		{
 			ft_memdel((void **)&buf);
 			close(fd);
-			return (free_list(list));
+			return (NULL);
 		}
-		ft_lstadd(&list, ft_lstnew(tetriminos, sizeof(t_etriminos)));
+		ft_lstadd(&tetriminos_list, ft_lstnew(tetriminos, sizeof(t_etriminos)));
 		//ft_memdel((void **)&tetriminos);
 	}
-	ft_lstrev(&list);
+	ft_lstrev(&tetriminos_list);
 	close(fd);
-	return (list);
+	return (tetriminos_list);
 }
 
 /*
