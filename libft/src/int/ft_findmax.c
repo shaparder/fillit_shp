@@ -1,32 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memcpy.c                                        :+:      :+:    :+:   */
+/*   ft_findmax.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: osfally <osfally@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/01 16:06:25 by osfally           #+#    #+#             */
-/*   Updated: 2019/02/11 21:59:59 by osfally          ###   ########.fr       */
+/*   Created: 2019/02/11 19:03:57 by osfally           #+#    #+#             */
+/*   Updated: 2019/02/11 20:04:31 by osfally          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/libft.h"
 
-void	*ft_memcpy(void *dst, const void *src, size_t len)
-{
-	size_t				i;
-	unsigned char		*cdst;
-	const unsigned char	*csrc;
+/*
+**	Find the maximum of an integer array
+*/
 
-	if (len == 0 || dst == src)
-		return (dst);
-	cdst = (unsigned char *)dst;
-	csrc = (unsigned char *)src;
-	i = 0;
-	while (i < len)
+int		findmax(int *array, int array_size)
+{
+	int		max;
+
+	array_size--;
+	max = array[array_size];
+	while (array_size >= 0)
 	{
-		cdst[i] = csrc[i];
-		i++;
+		if (array[array_size] > max)
+		{
+			max = array[array_size];
+		}
+		array_size--;
 	}
-	return (dst);
+	return (max);
 }

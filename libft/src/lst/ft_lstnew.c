@@ -6,7 +6,7 @@
 /*   By: osfally <osfally@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 00:02:39 by osfally           #+#    #+#             */
-/*   Updated: 2019/02/10 11:31:31 by osfally          ###   ########.fr       */
+/*   Updated: 2019/02/11 22:21:55 by osfally          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,12 @@ t_list	*ft_lstnew(void const *content, size_t content_size)
 	}
 	else
 	{
-		free(elem);
 		MACH((elem->content = malloc(content_size)), NULL);
+		if (elem->content == NULL)
+		{
+			free(elem);
+			return (NULL);
+		}
 		ft_memcpy((elem->content), content, content_size);
 		elem->content_size = content_size;
 	}

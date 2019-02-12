@@ -6,7 +6,7 @@
 /*   By: osfally <osfally@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/08 18:38:50 by osfally           #+#    #+#             */
-/*   Updated: 2019/02/11 15:42:58 by osfally          ###   ########.fr       */
+/*   Updated: 2019/02/11 22:27:23 by osfally          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,18 +25,18 @@
 } */
 
 /*
-** Free the tetriminos structure
+** Free the tetriminos structure.
 */
 
 void			free_tetriminos(t_etriminos *tetriminos)
 {
 	ft_memdel((void **)(&(tetriminos->pos)));
-	ft_memdel((void **)(&(tetriminos->letter)));
-	ft_memdel((void **)(&(tetriminos)));
+	//ft_memdel((void **)(&(tetriminos->letter)));
+	//ft_memdel((void **)tetriminos);
 }
 
 /*
-** Free the list structure
+** Free the list structure.
 */
 
 t_list			*free_list(t_list *list)
@@ -46,17 +46,17 @@ t_list			*free_list(t_list *list)
 
 	while (list)
 	{
-		tetriminos = (t_etriminos *)list->content;
-		free_tetriminos(tetriminos);
+		tetriminos = list->content;
 		next = list->next;
-		ft_memdel((void **)&list);
+		free_tetriminos(tetriminos);
+		ft_memdel((void **)list);
 		list = next;
 	}
 	return (NULL);
 }
 
 /*
-**	Store the positions of the blocks of the tetriminos in an int array.
+**	Store the positions of the blocks of the tetriminos in an int array, and puts it top left of the "map".
 */
 
 int				*get_pos(char *buf)
@@ -65,11 +65,12 @@ int				*get_pos(char *buf)
 	int			i;
 	int 		j;
 	int			k;
+	int			min;
 
 	i = 0;
 	j = 0;
 	k = 0;
-	pos = malloc(sizeof(int) * 4);
+	pos = (int *)malloc(sizeof(int) * 4);
 	while (buf[i])
 	{
 		if (buf[i] == '#')
@@ -77,7 +78,10 @@ int				*get_pos(char *buf)
 		i++;
 		j < 4 ? (j++) : (j = 0);
 	}
-
+	if ((min = findmin(pos, 4)) != 0)
+		while (min-- > 0 && ((k = 4) != 0))
+			while (k > 0)
+				pos[--k]--;
 	for(size_t g = 0; g < 4; g++)
 	{
 		printf("%i", pos[g]);
@@ -95,7 +99,8 @@ t_etriminos		*create_tetriminos(char letter, char *buf)
 	t_etriminos *tetriminos;
 
 	tetriminos = (t_etriminos *)malloc(sizeof(t_etriminos));
-	tetriminos->letter = letter++;
+	tetriminos->letter = letter;
+	printf("tetriletter = %c\n", letter);
 	tetriminos->pos = get_pos(buf);
 	return(tetriminos);
 }
@@ -115,7 +120,7 @@ t_list			*read_file(int fd)
 	list = NULL;
 	buf = ft_strnew(21);
 	letter = 'A';
-	printf("tetriminos reading...\n");
+	printf("tetriminos reading...\n\n");
 	while ((count = read(fd, buf, 21)) >= 20)
 	{
 		if ((tetriminos = create_tetriminos(letter++, buf)) == NULL)
@@ -125,7 +130,7 @@ t_list			*read_file(int fd)
 			return (free_list(list));
 		}
 		ft_lstadd(&list, ft_lstnew(tetriminos, sizeof(t_etriminos)));
-		ft_memdel((void **)&tetriminos);
+		//ft_memdel((void **)&tetriminos);
 	}
 	ft_lstrev(&list);
 	close(fd);
@@ -133,9 +138,8 @@ t_list			*read_file(int fd)
 }
 
 /*
-** Entry point for the program
-** store tetriminos into a list / tries to fit them into the smallest square possible / print the square solved
-** if more than 1 argument, return the proper usage info.
+** Entry point for the program.
+** If more than 1 argument, return the proper usage info.
 */
 
 int				main(int argc, char **argv)
@@ -148,7 +152,7 @@ int				main(int argc, char **argv)
 		ft_putstr("usage: ./fillit [source_file]\n");
 		return (1);
 	}
-	printf("valid file\n");
+	printf("valid file\n\n");
 	if ((tetriminos_list = read_file(open(argv[1], O_RDONLY))) == NULL)
 	{
 		ft_putstr("invalid file.");
@@ -157,6 +161,6 @@ int				main(int argc, char **argv)
 	// square = solve_tetris(tetriminos_list);
 	// print_solution(square);
 	// free(square);
-	// free(tetriminos_list);
+	free_list(tetriminos_list);
 	return (0);
 }

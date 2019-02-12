@@ -6,7 +6,7 @@
 /*   By: osfally <osfally@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/05 17:05:34 by osfally           #+#    #+#             */
-/*   Updated: 2019/02/10 11:43:03 by osfally          ###   ########.fr       */
+/*   Updated: 2019/02/11 20:05:46 by osfally          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ void				ft_putstr(char const *str);
 char				*ft_itoa(int n);
 void				ft_swap(int *a, int *b);
 int					ft_atoi(char *str);
+int					findmin(int *array, int array_size);
+int					findmax(int *array, int array_size);
 
 //list functions
 typedef struct		s_list
