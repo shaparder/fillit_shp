@@ -6,7 +6,7 @@
 #    By: osfally <osfally@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/09 09:21:23 by osfally           #+#    #+#              #
-#    Updated: 2019/02/11 22:12:09 by osfally          ###   ########.fr        #
+#    Updated: 2019/02/11 22:33:03 by osfally          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,6 +37,7 @@ DFLAGS		:=	-fsanitize=address -g
 # libraries
 LIB_INC		:=	$(LIB_DIR)/includes
 LIB_EXC		:=	$(LIB_DIR)/libft.a
+LIB_OBJ		:=	$(LIB_DIR)/obj
 
 .PHONY: all clean fclean re
 
@@ -65,3 +66,10 @@ re: fclean all
 relibs:
 	@$(MAKE) -C $(LIB_DIR) re
 	@$(MAKE) re
+
+libclean:
+	@rm -rf $(LIB_OBJ)
+	@rm -rf $(LIB_EXC)
+	@echo "Library obj and file cleaned."
+
+cleanclean: libclean fclean
