@@ -6,7 +6,7 @@
 /*   By: osfally <osfally@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/08 18:38:50 by osfally           #+#    #+#             */
-/*   Updated: 2019/02/12 15:47:54 by osfally          ###   ########.fr       */
+/*   Updated: 2019/02/12 19:52:47 by osfally          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,13 @@
 {
 } */
 
-/* t_map *solve_tetris(t_list *list)
+/*
+**
+*/
+
+/* t_map *find_solution(t_list *list)
 {
+
 } */
 
 /*
@@ -31,7 +36,7 @@
 void			free_tetriminos(t_etriminos *tetriminos)
 {
 	ft_memdel((void **)(&(tetriminos->pos)));
-	ft_memdel((void **)(&tetriminos));
+	//ft_memdel((void **)(&(tetriminos)));
 }
 
 /*
@@ -85,6 +90,23 @@ int				*get_pos(char *buf)
 }
 
 /*
+** Create new tetriminos struct with set data(letter and position).
+*/
+
+t_etriminos		*create_tetriminos(char letter, char *buf)
+{
+	t_etriminos *tetriminos;
+
+	tetriminos = (t_etriminos *)malloc(sizeof(t_etriminos));
+	tetriminos->letter = letter;
+	printf("tetriletter = %c\n", letter);
+	tetriminos->pos = get_pos(buf);
+	printf("tetriminos->pos = %i%i%i%i\n\n", tetriminos->pos[0],
+		tetriminos->pos[1], tetriminos->pos[2], tetriminos->pos[3]);
+	return(tetriminos);
+}
+
+/*
 ** Check connections of each block
 */
 
@@ -129,7 +151,7 @@ int				valid_format(char *buf, int count)
 	bloks = 0;
 	while (i < 20)
 	{
-		if (i != 4 && i != 9 && i != 14 && i != 19)
+		if (i % 5 != 4)
 		{
 			if (buf[i] != '.' && buf[i] != '#')
 				return (1);
@@ -145,23 +167,6 @@ int				valid_format(char *buf, int count)
 	if (check_connections(buf))
 		return (5);
 	return (0);
-}
-
-/*
-** Create new tetriminos struct with set data(letter and position).
-*/
-
-t_etriminos		*create_tetriminos(char letter, char *buf)
-{
-	t_etriminos *tetriminos;
-
-	tetriminos = (t_etriminos *)malloc(sizeof(t_etriminos));
-	tetriminos->letter = letter;
-	printf("tetriletter = %c\n", letter);
-	tetriminos->pos = get_pos(buf);
-	printf("tetriminos->pos = %i%i%i%i\n\n", tetriminos->pos[0],
-		tetriminos->pos[1], tetriminos->pos[2], tetriminos->pos[3]);
-	return(tetriminos);
 }
 
 /*
@@ -186,7 +191,7 @@ t_list			*read_file(int fd)
 		{
 			ft_memdel((void **)&buf);
 			close(fd);
-			return (free_list(tetriminos_list));
+			//return (free_list(tetriminos_list));
 		}
 		ft_lstadd(&tetriminos_list, ft_lstnew(tetriminos, sizeof(t_etriminos)));
 		//ft_memdel((void **)&tetriminos);
@@ -204,7 +209,7 @@ t_list			*read_file(int fd)
 int				main(int argc, char **argv)
 {
 	t_list		*tetriminos_list;
-	// t_map		*square;
+	//t_map		*square;
 
 	if (argc != 2)
 	{
@@ -217,9 +222,9 @@ int				main(int argc, char **argv)
 		ft_putstr("invalid file.");
 		return (1);
 	}
-	// square = solve_tetris(tetriminos_list);
+	//square = find_solution(tetriminos_list);
 	// print_solution(square);
 	// free(square);
-	//free_list(tetriminos_list);
+	free_list(tetriminos_list);
 	return (0);
 }
