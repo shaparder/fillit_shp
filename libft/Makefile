@@ -6,7 +6,7 @@
 #    By: osfally <osfally@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/10 10:35:14 by osfally           #+#    #+#              #
-#    Updated: 2019/02/11 13:40:14 by osfally          ###   ########.fr        #
+#    Updated: 2019/02/10 17:53:01 by osfally          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,12 +28,10 @@ OBJ			= $(addprefix $(OBJ_DIR)/,$(SRC:.c=.o))
 # compilateur / flags
 CC			:=	gcc
 CFLAGS		:=	-Wall -Wextra -Werror
-CFLAGS 		+= -O3 -march=native -pipe
 
 .PHONY: all clean fclean re
 
 all: $(OBJ_DIR) $(NAME)
-
 
 $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)
@@ -47,14 +45,13 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 $(NAME): $(OBJ)
 	@ar rc $(NAME) $(OBJ)
 	@ranlib $(NAME)
-	@echo "Lib file created."
 
 clean:
 	@rm -rf $(OBJ_DIR)
-	@echo "Lib objects cleaned."
+	@echo "Objects cleaned."
 
 fclean:	clean
 	@rm -rf $(NAME)
-	@echo "Lib file cleaned."
+	@echo "Executable cleaned."
 
 re: fclean all

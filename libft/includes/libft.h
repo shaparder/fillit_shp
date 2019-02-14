@@ -6,7 +6,7 @@
 /*   By: osfally <osfally@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/05 17:05:34 by osfally           #+#    #+#             */
-/*   Updated: 2019/02/12 11:27:44 by osfally          ###   ########.fr       */
+/*   Updated: 2019/02/13 21:35:13 by osfally          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ void				ft_lstiter(t_list *lst, void (*f)(t_list *elem));
 t_list				*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 void				ft_lstdel(t_list **alst, void (*del)(void *, size_t));
 void				ft_lstrev(t_list **alst);
+size_t				ft_lstcount(t_list *lst);
 
 //get next line function
 # define BUFF_SIZE 32

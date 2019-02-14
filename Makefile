@@ -6,7 +6,7 @@
 #    By: osfally <osfally@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/09 09:21:23 by osfally           #+#    #+#              #
-#    Updated: 2019/02/12 18:59:23 by osfally          ###   ########.fr        #
+#    Updated: 2019/02/13 21:46:54 by osfally          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -63,7 +63,7 @@ fclean: clean
 
 re: fclean all
 
-relibs:
+relib:
 	@$(MAKE) -C $(LIB_DIR) re
 	@$(MAKE) re
 
@@ -71,5 +71,9 @@ libclean:
 	@rm -rf $(LIB_OBJ)
 	@rm -rf $(LIB_EXC)
 	@echo "Library obj and file cleaned."
+
+libupdate:
+	@rm -rf $(LIB_DIR)
+	@git clone https://github.com/shaparder/libft_shp.git libft
 
 cleanclean: libclean fclean

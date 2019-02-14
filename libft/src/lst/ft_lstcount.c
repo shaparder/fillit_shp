@@ -1,32 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memcpy.c                                        :+:      :+:    :+:   */
+/*   ft_lstcount.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: osfally <osfally@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/01 16:06:25 by osfally           #+#    #+#             */
-/*   Updated: 2019/02/10 11:36:33 by osfally          ###   ########.fr       */
+/*   Created: 2019/02/13 21:29:44 by osfally           #+#    #+#             */
+/*   Updated: 2019/02/13 21:32:22 by osfally          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/libft.h"
 
-void	*ft_memcpy(void *dst, const void *src, size_t len)
+size_t	ft_lstcount(t_list *lst)
 {
-	size_t				i;
-	unsigned char		*cdst;
-	const unsigned char	*csrc;
+	size_t	i;
 
-	if (len == 0 || dst == src)
-		return (dst);
-	cdst = (unsigned char *)dst;
-	csrc = (unsigned char *)src;
 	i = 0;
-	while (i < len)
+	while (lst)
 	{
-		cdst[i] = csrc[i];
+		lst = lst->next;
 		i++;
 	}
-	return (dst);
+	return (i);
 }
