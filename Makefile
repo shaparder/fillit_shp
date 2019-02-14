@@ -6,7 +6,7 @@
 #    By: osfally <osfally@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/09 09:21:23 by osfally           #+#    #+#              #
-#    Updated: 2019/02/13 22:20:20 by osfally          ###   ########.fr        #
+#    Updated: 2019/02/13 22:36:00 by osfally          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -82,5 +82,10 @@ libdl:
 	@git add *
 	@git commit -m "auto commit: lib update"
 	@git push
+
+fastgit:
+	git add *
+	git commit -m "fast push"
+	git push
 
 cleanclean: libclean fclean
