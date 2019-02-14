@@ -6,7 +6,7 @@
 /*   By: osfally <osfally@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/08 18:38:50 by osfally           #+#    #+#             */
-/*   Updated: 2019/02/13 22:04:37 by osfally          ###   ########.fr       */
+/*   Updated: 2019/02/13 23:23:26 by osfally          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,30 @@
 } */
 
 /*
-**
+** Create a map struct with a size and an allocated **array.
 */
 
 t_map			*create_map(int size)
 {
 	t_map	*map;
+	int		i;
+	int 	j;
 
+	i = 0;
+	map = (t_map *)malloc(sizeof(t_map));
+	map->size = size;
+	map->array = (char **)malloc(sizeof(char *) * size);
+	while (i < size)
+	{
+		map->array[i] = ft_strnew(size);
+		j = 0;
+		while (j < size)
+		{
+			map->array[i][j] = '.';
+			j++;
+		}
+		i++;
+	}
 	return (map);
 }
 
@@ -42,7 +59,7 @@ t_map			*find_solution(t_list *list)
 
 	size = ft_lstcount(list);
 	map = create_map(size);
-	while(solve_map())
+	while(solve_map(map, size))
 	{
 		size++;
 		free_map(map);
