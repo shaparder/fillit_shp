@@ -6,7 +6,7 @@
 #    By: osfally <osfally@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/09 09:21:23 by osfally           #+#    #+#              #
-#    Updated: 2019/02/13 21:46:54 by osfally          ###   ########.fr        #
+#    Updated: 2019/02/13 22:16:10 by osfally          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -73,7 +73,13 @@ libclean:
 	@echo "Library obj and file cleaned."
 
 libupdate:
-	@rm -rf $(LIB_DIR)
+	@git rm -rf $(LIB_DIR)
+	@$(MAKE) libdl
+
+libdl:
 	@git clone https://github.com/shaparder/libft_shp.git libft
+	@git add *
+	@git commit -m "auto commit: lib update"
+	@git push
 
 cleanclean: libclean fclean
