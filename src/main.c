@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: osfally <osfally@student.42.fr>            +#+  +:+       +#+        */
+/*   By: shaparder <shaparder@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/08 18:38:50 by osfally           #+#    #+#             */
-/*   Updated: 2019/02/13 23:23:26 by osfally          ###   ########.fr       */
+/*   Updated: 2019/02/14 16:07:48 by shaparder        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,27 @@
 #include <fcntl.h>
 #include <stdio.h>
 
-
 /* void print_solution(t_map *map)
 {
 } */
+
+/*
+**
+*/
+
+void			free_map(t_map *map)
+{
+	int			i;
+
+	i = 0;
+	while (map->array[i])
+	{
+		free(map->array[i]);
+		i++;
+	}
+	free(map->array);
+	free(map);
+}
 
 /*
 ** Create a map struct with a size and an allocated **array.
@@ -26,9 +43,9 @@
 
 t_map			*create_map(int size)
 {
-	t_map	*map;
-	int		i;
-	int 	j;
+	t_map		*map;
+	int			i;
+	int			j;
 
 	i = 0;
 	map = (t_map *)malloc(sizeof(t_map));
@@ -54,12 +71,12 @@ t_map			*create_map(int size)
 
 t_map			*find_solution(t_list *list)
 {
-	t_map	*map;
-	int		size;
+	t_map		*map;
+	int			size;
 
 	size = ft_lstcount(list);
 	map = create_map(size);
-	while(solve_map(map, size))
+	while (solve_map(map, size))
 	{
 		size++;
 		free_map(map);
@@ -84,8 +101,8 @@ t_map			*find_solution(t_list *list)
 
 t_list			*free_list(t_list *tetriminos_list)
 {
-	t_list	*next;
-	int		*tetripos;
+	t_list		*next;
+	int			*tetripos;
 
 	while (tetriminos_list)
 	{
@@ -106,7 +123,7 @@ int				*get_pos(char *buf)
 {
 	int			*pos;
 	int			i;
-	int 		j;
+	int			j;
 	int			k;
 	int			min;
 
@@ -125,7 +142,7 @@ int				*get_pos(char *buf)
 		while (min-- > 0 && ((k = 4) != 0))
 			while (k > 0)
 				pos[--k]--;
-	return(pos);
+	return (pos);
 }
 
 /*
@@ -149,14 +166,14 @@ int				*get_pos(char *buf)
 ** Check connections of each block
 */
 
-int				check_connections(char *buf)
+int					check_connections(char *buf)
 {
-	int		connections;
-	int		i;
+	int			connections;
+	int			i;
 
 	i = 0;
 	connections = 0;
-	while(buf[i])
+	while (buf[i])
 	{
 		if (buf[i] == '#')
 		{
@@ -181,10 +198,10 @@ int				check_connections(char *buf)
 ** Check if the file is in the good format.
 */
 
-int				valid_format(char *buf, int count)
+int					valid_format(char *buf, int count)
 {
-	int		i;
-	int		bloks;
+	int			i;
+	int			bloks;
 
 	i = 0;
 	bloks = 0;
@@ -212,7 +229,7 @@ int				valid_format(char *buf, int count)
 ** Reads the file descriptor and put all the tetriminos in a linked list.
 */
 
-t_list			*read_file(int fd)
+t_list				*read_file(int fd)
 {
 	int			count;
 	char		letter;
@@ -245,7 +262,7 @@ t_list			*read_file(int fd)
 ** If more than 1 argument, return the proper usage info.
 */
 
-int				main(int argc, char **argv)
+int					main(int argc, char **argv)
 {
 	t_list		*tetriminos_list;
 	t_map		*map;
