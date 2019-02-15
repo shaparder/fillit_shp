@@ -6,7 +6,7 @@
 #    By: osfally <osfally@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/09 09:21:23 by osfally           #+#    #+#              #
-#    Updated: 2019/02/13 23:03:49 by osfally          ###   ########.fr        #
+#    Updated: 2019/02/14 18:58:36 by osfally          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,13 +45,14 @@ all:
 	@mkdir -p $(OBJ_DIR)
 	@$(MAKE) -C $(LIB_DIR) >/dev/null || make
 	@$(MAKE) $(NAME)
-	@echo "Executable created."
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@$(CC) $(CFLAGS) -I $(LIB_INC) -I $(INC_DIR) -o $@ -c $<
+	@echo "Objects created."
 
 $(NAME): $(OBJ)
 	@$(CC) $(CFLAGS) $(OBJ) -o $(NAME) $(LIB_EXC)
+	@echo "Executable created."
 
 # clean obj folder
 clean:
@@ -96,3 +97,10 @@ git: cleanclean
 
 # CLEANCLEANCLEAN
 cleanclean: libclean fclean
+
+infiniterun:
+	sleep 24
+	make all
+	sleep 33
+	make fclean
+	@$(MAKE) infiniterun

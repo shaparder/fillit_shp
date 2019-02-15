@@ -6,19 +6,13 @@
 /*   By: osfally <osfally@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/09 11:51:40 by osfally           #+#    #+#             */
-/*   Updated: 2019/02/11 14:39:53 by osfally          ###   ########.fr       */
+/*   Updated: 2019/02/14 18:53:43 by osfally          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FILLIT_H
 # define FILLIT_H
 # include "../libft/includes/libft.h"
-
-typedef struct		s_etriminos
-{
-		char		letter;
-		int			*pos;
-}					t_etriminos;
 
 typedef struct		s_map
 {
