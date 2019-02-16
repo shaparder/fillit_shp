@@ -6,7 +6,7 @@
 /*   By: osfally <osfally@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/09 11:51:40 by osfally           #+#    #+#             */
-/*   Updated: 2019/02/14 18:53:43 by osfally          ###   ########.fr       */
+/*   Updated: 2019/02/15 14:01:01 by osfally          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ typedef struct		s_map
 		char		**array;
 }					t_map;
 
-t_list *read_file(int fd);
-int		*get_pos(char *buf);
-
+t_list			*read_file(int fd);
+int				*get_pos(char *buf);
+void			print_map(t_map *map);
 
 #endif

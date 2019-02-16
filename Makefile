@@ -6,7 +6,7 @@
 #    By: osfally <osfally@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/09 09:21:23 by osfally           #+#    #+#              #
-#    Updated: 2019/02/14 18:58:36 by osfally          ###   ########.fr        #
+#    Updated: 2019/02/15 14:55:34 by osfally          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ DFLAGS		:=	-fsanitize=address -g
 # CFLAGS		+= $(OFLAGS)
 
 # uncomment next line to use sanitizer debug
-#CFLAGS		+=	$(DFLAGS)
+CFLAGS		+=	$(DFLAGS)
 
 # libraries
 LIB_INC		:=	$(LIB_DIR)/includes
