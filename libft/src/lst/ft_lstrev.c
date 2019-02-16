@@ -6,7 +6,7 @@
 /*   By: osfally <osfally@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/09 21:15:19 by osfally           #+#    #+#             */
-/*   Updated: 2019/02/10 11:31:22 by osfally          ###   ########.fr       */
+/*   Updated: 2019/02/15 19:01:25 by osfally          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void		ft_lstrev(t_list **last)
 
 	prev = NULL;
 	cur = *last;
+	next = NULL;
 	while (cur != NULL)
 	{
 		next = cur->next;

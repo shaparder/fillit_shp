@@ -6,7 +6,7 @@
 #    By: osfally <osfally@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/09 09:21:23 by osfally           #+#    #+#              #
-#    Updated: 2019/02/15 14:55:34 by osfally          ###   ########.fr        #
+#    Updated: 2019/02/15 17:52:28 by osfally          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,8 +28,6 @@ OBJ			:=	$(addprefix $(OBJ_DIR)/,$(SRC:.c=.o))
 CC			:=	gcc
 CFLAGS		:=	-Wall -Wextra -Werror -pedantic -std=c99
 DFLAGS		:=	-fsanitize=address -g
-# OFLAGS		:=	-pipe -flto
-# CFLAGS		+= $(OFLAGS)
 
 # uncomment next line to use sanitizer debug
 CFLAGS		+=	$(DFLAGS)

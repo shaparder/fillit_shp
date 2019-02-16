@@ -6,7 +6,7 @@
 /*   By: osfally <osfally@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/08 18:38:50 by osfally           #+#    #+#             */
-/*   Updated: 2019/02/15 16:26:16 by osfally          ###   ########.fr       */
+/*   Updated: 2019/02/15 20:06:15 by osfally          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,8 @@
 #include <stdio.h>
 
 //	Set tetriminos in the array at pos [y][x].
-void			set_tetri(char **array, int y, int x, int *tetripos)
+void			set_tetri(char **array, int y, int x, int *tetripos, char letter)
 {
-	static char	letter = 'A';
 	int			i;
 	int			t;
 	int			tp;
@@ -32,15 +31,14 @@ void			set_tetri(char **array, int y, int x, int *tetripos)
 		t = tetripos[i];
 		if (tp < t)
 			array[y][x + t] = letter;
-		else if (tp > t)
+		else if (tp >= t)
 			array[++y][x + t] = letter;
 		i++;
 	}
-	++letter;
 }
 
 // Check if tetris fits in position array[y][x]. Because of the storing being a 1d array, needs to use if/else if.
-int				check_tetri(char **array, int y, int x, int *tetripos, int size)
+int				check_tetri(char **array, int y, int x, int *tetripos, int size, char letter)
 {
 	int			i;
 	int			t;
@@ -58,37 +56,38 @@ int				check_tetri(char **array, int y, int x, int *tetripos, int size)
 		t = tetripos[i];
 		if (tp < t && ((x + t > size) || (array[yy][x + t] != '.')))
 				return (0);
-		else if (tp > t && ((x + t > size) || (array[++yy][x + t] != '.')))
+		else if (tp >= t && ((x + t > size) || ++yy >= size ||(array[yy][x + t] != '.')))
 				return (0);
 		i++;
 	}
-	set_tetri(array, y, x, tetripos);
+	set_tetri(array, y, x, tetripos, letter);
 	return (1);
 }
 
 // BACKTRACKING FUNCTION ->recursion call if tetris is placed, end success if no next node in list.
-int				solve_map(t_map *map, t_list *list)
+int				solve_map(t_map *map, t_list *list, char letter)
 {
 	int			y;
 	int			x;
 
-	int *tetripos = list->content;
-	printf("tetripos to check = %i%i%i%i\n\n", tetripos[0], tetripos[1], tetripos[2], tetripos[3]);
+	if (list == NULL)
+		return (1);
+			int *tetripos = list->content;
+			printf("tetripos to check = %i%i%i%i\n\n", tetripos[0], tetripos[1], tetripos[2], tetripos[3]);
 	y = 0;
 	while (y < map->size)
 	{
 		x = 0;
 		while (x < map->size)
 		{
-			if (check_tetri(map->array, y, x, list->content, map->size) && (list->next != NULL))
+			if (check_tetri(map->array, y, x, list->content, map->size, letter) == 1)
 			{
-				printf("New tetris in map:\n");
-				print_map(map);
-				printf("\n");
-				solve_map(map, list->next);
+					printf("New tetris in map:\n");
+					print_map(map);
+					printf("\n");
+				if (solve_map(map, list->next, ++letter))
+					return (1);
 			}
-			else if (list->next == NULL)
-				return (1);
 			x++;
 		}
 		y++;
@@ -170,21 +169,22 @@ t_map			*find_solution(t_list *list)
 {
 	t_map		*map;
 	int			size;
+	char		start_letter;
 
 	size = rounded_sqrt(ft_lstcount(list) * 4);
-	printf("Starting size for map is %i\n\n", size);
 	map = create_map(size);
-	printf("The empty map:\n");
-	print_map(map);
-	printf("\n");
-	while (!(solve_map(map, list)) && size < 6)
+			printf("The empty map:\n");
+			print_map(map);
+			printf("\n");
+	start_letter = 'A';
+	while (solve_map(map, list, start_letter) == 0 && size < 6)
 	{
 		size++;
 		free_map(map);
 		map = create_map(size);
-		printf("The empty map:\n");
-		print_map(map);
-		printf("\n");
+				printf("The empty map:\n");
+				print_map(map);
+				printf("\n");
 	}
 	return (map);
 }
@@ -331,6 +331,29 @@ int					valid_format(char *buf, int count)
 	return (0);
 }
 
+
+
+
+void printList(t_list *head)
+{
+    t_list *temp = head;
+	int	*tetripos;
+	int	i = 0;
+	printf("List print: \n\n");
+    while(temp != NULL)
+    {
+		printf("node number %i \n", i);
+		tetripos = temp->content;
+		printf("tetripos = %i%i%i%i\n\n", tetripos[0], tetripos[1], tetripos[2], tetripos[3]);
+        temp = temp->next;
+		i++;
+    }
+}
+
+
+
+
+
 // Reads the file descriptor and put all the tetriminos in a linked list.
 t_list				*read_file(int fd)
 {
@@ -355,7 +378,7 @@ t_list				*read_file(int fd)
 		printf("tetripos = %i%i%i%i\n\n", tetripos[0], tetripos[1], tetripos[2], tetripos[3]);
 		ft_lstadd(&tetrilist, ft_lstnew(tetripos, (sizeof(int) * 4)));
 	}
-	//ft_lstrev(&tetrilist);
+	printList(tetrilist);
 	close(fd);
 	return (tetrilist);
 }

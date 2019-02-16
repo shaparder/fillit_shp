@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstnew.1.c                                      :+:      :+:    :+:   */
+/*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: osfally <osfally@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/08 00:02:39 by osfally           #+#    #+#             */
-/*   Updated: 2019/02/13 21:29:29 by osfally          ###   ########.fr       */
+/*   Updated: 2019/02/15 18:05:39 by osfally          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,25 @@
 
 t_list	*ft_lstnew(void const *content, size_t content_size)
 {
-	t_list *elem;
+	t_list *list;
 
-	MACH((elem = (t_list *)malloc(sizeof(t_list))), NULL);
+	MACH((list = (t_list *)malloc(sizeof(t_list))), NULL);
 	if (content == NULL)
 	{
-		elem->content = NULL;
-		elem->content_size = 0;
+		list->content = NULL;
+		list->content_size = 0;
 	}
 	else
 	{
-		MACH((elem->content = malloc(content_size)), NULL);
-		if (elem->content == NULL)
+		MACH((list->content = malloc(content_size)), NULL);
+		if (list->content == NULL)
 		{
-			free(elem);
+			free(list);
 			return (NULL);
 		}
-		ft_memcpy((elem->content), content, content_size);
-		elem->content_size = content_size;
+		ft_memcpy((list->content), content, content_size);
+		list->content_size = content_size;
 	}
-	elem->next = NULL;
-	return (elem);
+	list->next = NULL;
+	return (list);
 }
