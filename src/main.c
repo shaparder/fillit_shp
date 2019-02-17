@@ -6,7 +6,7 @@
 /*   By: osfally <osfally@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/08 18:38:50 by osfally           #+#    #+#             */
-/*   Updated: 2019/02/15 20:06:15 by osfally          ###   ########.fr       */
+/*   Updated: 2019/02/16 19:02:11 by osfally          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,15 +65,13 @@ int				check_tetri(char **array, int y, int x, int *tetripos, int size, char let
 }
 
 // BACKTRACKING FUNCTION ->recursion call if tetris is placed, end success if no next node in list.
-int				solve_map(t_map *map, t_list *list, char letter)
+int				map_filler(t_map *map, t_list *list, char letter)
 {
 	int			y;
 	int			x;
 
 	if (list == NULL)
 		return (1);
-			int *tetripos = list->content;
-			printf("tetripos to check = %i%i%i%i\n\n", tetripos[0], tetripos[1], tetripos[2], tetripos[3]);
 	y = 0;
 	while (y < map->size)
 	{
@@ -82,11 +80,13 @@ int				solve_map(t_map *map, t_list *list, char letter)
 		{
 			if (check_tetri(map->array, y, x, list->content, map->size, letter) == 1)
 			{
-					printf("New tetris in map:\n");
-					print_map(map);
-					printf("\n");
+					//printf("New tetris in map:\n");
+					//print_map(map);
+					//printf("\n");
 				if (solve_map(map, list->next, ++letter))
 					return (1);
+				else
+					return (0);
 			}
 			x++;
 		}
@@ -136,8 +136,7 @@ t_map			*create_map(int size)
 	i = 0;
 	map = (t_map *)malloc(sizeof(t_map));
 	map->size = size;
-	printf("--------------------------------------\n\n");
-	printf("Map size = %i\n\n", map->size);
+	//printf("Map size = %i\n\n", map->size);
 	map->array = (char **)malloc(sizeof(char *) * size);
 	while (i < size)
 	{
@@ -165,7 +164,7 @@ int				rounded_sqrt(int x)
 }
 
 // Tries to find solution for map
-t_map			*find_solution(t_list *list)
+t_map			*map_solver(t_list *list)
 {
 	t_map		*map;
 	int			size;
@@ -173,29 +172,15 @@ t_map			*find_solution(t_list *list)
 
 	size = rounded_sqrt(ft_lstcount(list) * 4);
 	map = create_map(size);
-			printf("The empty map:\n");
-			print_map(map);
-			printf("\n");
 	start_letter = 'A';
-	while (solve_map(map, list, start_letter) == 0 && size < 6)
+	while (map_filler(map, list, start_letter) == 0 && size < 6)
 	{
 		size++;
 		free_map(map);
 		map = create_map(size);
-				printf("The empty map:\n");
-				print_map(map);
-				printf("\n");
 	}
 	return (map);
 }
-
-
-// Free the tetriminos structure.
-/* void			free_tetriminos(t_etriminos *tetriminos)
-{
-	ft_memdel((void **)(&(tetriminos->pos)));
-	ft_memdel((void **)(&(tetriminos)));
-} */
 
 //Free the list structure.
 t_list			*free_list(t_list *tetrilist)
@@ -241,21 +226,6 @@ int				*get_pos(char *buf)
 	return (pos);
 }
 
-// Create new tetriminos struct with set data(letter and position).
-/* t_etriminos		*create_tetriminos(char letter, char *buf)
-{
-	t_etriminos *tetriminos;
-
-	tetriminos = (t_etriminos *)malloc(sizeof(t_etriminos));
-	tetriminos->letter = letter;
-	printf("tetriletter = %c\n", letter);
-	tetriminos->pos = get_pos(buf);
-	printf("tetriminos->pos = %i%i%i%i\n\n", tetriminos->pos[0],
-		tetriminos->pos[1], tetriminos->pos[2], tetriminos->pos[3]);
-	return(tetriminos);
-} */
-
-
 // Check connections of each block.
 int					check_connections(char *buf)
 {
@@ -279,7 +249,7 @@ int					check_connections(char *buf)
 		}
 		i++;
 	}
-	printf("connections = %i / ", connections);
+	//printf("connections = %i / ", connections);
 	if (connections != 6 && connections != 8)
 		return (1);
 	else
@@ -300,39 +270,22 @@ int					valid_format(char *buf, int count)
 		if (i % 5 != 4)
 		{
 			if (buf[i] != '.' && buf[i] != '#')
-			{
 				return (1);
-				printf("bad character in source_file\n\n");
-			}
-
 			else if (buf[i] == '#' && ++bloks > 4)
-			{
 				return (2);
-				printf("too much blocks tetriminos in source_file\n\n");
-			}
 		}
 		else if (buf[i] != '\n')
-		{
 			return (3);
-			printf("$ not correctly placed\n\n");
-		}
 		i++;
 	}
 	if (count == 21 && buf[20] != '\n')
-	{
 		return (4);
-		printf("$ bad ending of tetriminos format\n\n");
-	}
 	if (check_connections(buf))
-	{
 		return (5);
-		printf("tetriminos not connected\n\n");
-	}
+	if (count != 21 && count != 20)
+		return (6);
 	return (0);
 }
-
-
-
 
 void printList(t_list *head)
 {
@@ -342,15 +295,13 @@ void printList(t_list *head)
 	printf("List print: \n\n");
     while(temp != NULL)
     {
-		printf("node number %i \n", i);
+		//printf("node number %i \n", i);
 		tetripos = temp->content;
-		printf("tetripos = %i%i%i%i\n\n", tetripos[0], tetripos[1], tetripos[2], tetripos[3]);
+		//printf("tetripos = %i%i%i%i\n\n", tetripos[0], tetripos[1], tetripos[2], tetripos[3]);
         temp = temp->next;
 		i++;
     }
 }
-
-
 
 
 
@@ -366,8 +317,7 @@ t_list				*read_file(int fd)
 	tetrilist = NULL;
 	buf = ft_strnew(21);
 	letter = 'A';
-	printf("tetriminos reading...\n\n");
-	while ((count = read(fd, buf, 21)) >= 20)
+	while ((count = read(fd, buf, 21)))
 	{
 		if (valid_format(buf, count) != 0 || (tetripos = get_pos(buf)) == NULL)
 		{
@@ -375,12 +325,31 @@ t_list				*read_file(int fd)
 			close(fd);
 			return (free_list(tetrilist));
 		}
-		printf("tetripos = %i%i%i%i\n\n", tetripos[0], tetripos[1], tetripos[2], tetripos[3]);
 		ft_lstadd(&tetrilist, ft_lstnew(tetripos, (sizeof(int) * 4)));
 	}
-	printList(tetrilist);
+	ft_lstrev(&tetrilist);
+	//printList(tetrilist);
 	close(fd);
 	return (tetrilist);
+}
+
+t_map				*find_solution(t_list *tetrilist)
+{
+	t_map		*smallest_map;
+	t_map		*map;
+	t_map		*lst_last;
+	int			lst_size;
+
+	lst_size = ft_lstcount(tetrilist);
+	while(lst_size)
+	{
+		map = map_solver(tetrilist);
+		if (map->size < smallest_map->size)
+			smallest_map = map;
+		ft_lstswap(tetrilist, lst_last);
+		lst_size--;
+	}
+	return (smallest_map);
 }
 
 /*
@@ -397,10 +366,9 @@ int					main(int argc, char **argv)
 		ft_putstr("usage: ./fillit [source_file]\n");
 		return (1);
 	}
-	printf("existing file\n\n");
 	if ((tetrilist = read_file(open(argv[1], O_RDONLY))) == NULL)
 	{
-		ft_putstr("invalid file.");
+		ft_putstr("error\n");
 		return (1);
 	}
 	map = find_solution(tetrilist);

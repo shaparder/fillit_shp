@@ -1,32 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstrev.c                                        :+:      :+:    :+:   */
+/*   ft_lstrotback.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: osfally <osfally@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/02/09 21:15:19 by osfally           #+#    #+#             */
-/*   Updated: 2019/02/16 18:30:29 by osfally          ###   ########.fr       */
+/*   Created: 2019/02/16 19:59:18 by osfally           #+#    #+#             */
+/*   Updated: 2019/02/16 20:00:23 by osfally          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/libft.h"
 
-void		ft_lstrev(t_list **last)
+t_list				*ft_lstrotback(t_list **lst)
 {
-	t_list	*prev;
-	t_list	*cur;
-	t_list	*next;
+	t_list	*head;
+	t_list	*current;
 
-	prev = NULL;
-	cur = *last;
-	next = NULL;
-	while (cur != NULL)
-	{
-		next = cur->next;
-		cur->next = prev;
-		prev = cur;
-		cur = next;
-	}
-	*last = prev;
+	head = *lst;
+	current = *lst;
+	if (!current || !current->next)
+		return (*lst);
+	*lst = current->next;
+	while (current->next)
+		current = current->next;
+	current->next = head;
+	head->next = NULL;
+	return (*lst);
 }
