@@ -6,7 +6,7 @@
 /*   By: osfally <osfally@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/08 18:38:50 by osfally           #+#    #+#             */
-/*   Updated: 2019/02/16 20:33:07 by osfally          ###   ########.fr       */
+/*   Updated: 2019/02/16 21:52:54 by osfally          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -337,13 +337,20 @@ t_map				*find_solution(t_list *tetrilist)
 	t_map		*map;
 	int			i;
 
-	i = ft_lstcount(tetrilist);
+	i = (ft_lstcount(tetrilist) * 100);
 	while(i)
 	{
-		//printList(tetrilist);
+
 		map = map_solver(tetrilist);
 		if (map->size < smallest_map->size)
 			smallest_map = map;
+		if (tetrilist->next && (i % 2 == 0))
+		{
+			ft_lstswap(tetrilist, tetrilist->next);
+			map = map_solver(tetrilist);
+			if (map->size < smallest_map->size)
+				smallest_map = map;
+		}
 		tetrilist = ft_lstrot(&tetrilist);
 		i--;
 	}
