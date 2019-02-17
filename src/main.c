@@ -6,7 +6,7 @@
 /*   By: osfally <osfally@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/08 18:38:50 by osfally           #+#    #+#             */
-/*   Updated: 2019/02/16 19:02:11 by osfally          ###   ########.fr       */
+/*   Updated: 2019/02/16 20:33:07 by osfally          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int				map_filler(t_map *map, t_list *list, char letter)
 					//printf("New tetris in map:\n");
 					//print_map(map);
 					//printf("\n");
-				if (solve_map(map, list->next, ++letter))
+				if (map_filler(map, list->next, ++letter))
 					return (1);
 				else
 					return (0);
@@ -136,7 +136,6 @@ t_map			*create_map(int size)
 	i = 0;
 	map = (t_map *)malloc(sizeof(t_map));
 	map->size = size;
-	//printf("Map size = %i\n\n", map->size);
 	map->array = (char **)malloc(sizeof(char *) * size);
 	while (i < size)
 	{
@@ -173,7 +172,7 @@ t_map			*map_solver(t_list *list)
 	size = rounded_sqrt(ft_lstcount(list) * 4);
 	map = create_map(size);
 	start_letter = 'A';
-	while (map_filler(map, list, start_letter) == 0 && size < 6)
+	while (map_filler(map, list, start_letter) == 0)
 	{
 		size++;
 		free_map(map);
@@ -295,9 +294,9 @@ void printList(t_list *head)
 	printf("List print: \n\n");
     while(temp != NULL)
     {
-		//printf("node number %i \n", i);
+		printf("node number %i \n", i);
 		tetripos = temp->content;
-		//printf("tetripos = %i%i%i%i\n\n", tetripos[0], tetripos[1], tetripos[2], tetripos[3]);
+		printf("tetripos = %i%i%i%i\n\n", tetripos[0], tetripos[1], tetripos[2], tetripos[3]);
         temp = temp->next;
 		i++;
     }
@@ -328,7 +327,6 @@ t_list				*read_file(int fd)
 		ft_lstadd(&tetrilist, ft_lstnew(tetripos, (sizeof(int) * 4)));
 	}
 	ft_lstrev(&tetrilist);
-	//printList(tetrilist);
 	close(fd);
 	return (tetrilist);
 }
@@ -337,17 +335,17 @@ t_map				*find_solution(t_list *tetrilist)
 {
 	t_map		*smallest_map;
 	t_map		*map;
-	t_map		*lst_last;
-	int			lst_size;
+	int			i;
 
-	lst_size = ft_lstcount(tetrilist);
-	while(lst_size)
+	i = ft_lstcount(tetrilist);
+	while(i)
 	{
+		//printList(tetrilist);
 		map = map_solver(tetrilist);
 		if (map->size < smallest_map->size)
 			smallest_map = map;
-		ft_lstswap(tetrilist, lst_last);
-		lst_size--;
+		tetrilist = ft_lstrot(&tetrilist);
+		i--;
 	}
 	return (smallest_map);
 }
