@@ -6,13 +6,14 @@
 /*   By: osfally <osfally@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/09 11:51:40 by osfally           #+#    #+#             */
-/*   Updated: 2019/02/15 18:03:10 by osfally          ###   ########.fr       */
+/*   Updated: 2019/02/17 19:15:38 by osfally          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FILLIT_H
 # define FILLIT_H
 # include "../libft/includes/libft.h"
+# include <fcntl.h>
 
 typedef struct		s_map
 {
@@ -20,9 +21,18 @@ typedef struct		s_map
 		char		**array;
 }					t_map;
 
+
 t_list			*read_file(int fd);
+int				valid_format(char *buf, int count);
+int				check_connections(char *buf);
 int				*get_pos(char *buf);
+t_map			*map_solver(t_list *list);
+int				map_filler(t_map *map, t_list *list, char letter);
+int				check_tetri(char **array, int y, int x, int *tetripos, int size, char letter);
+void			set_tetri(char **array, int y, int x, int *tetripos, char letter);
+t_map			*create_map(int size);
+void			free_map(t_map *map);
 void			print_map(t_map *map);
-int				solve_map(t_map *map, t_list *list, char start_letter);
+t_list			*free_list(t_list *tetrilist);
 
 #endif
