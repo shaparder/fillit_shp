@@ -6,7 +6,7 @@
 /*   By: osfally <osfally@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/08 18:38:50 by osfally           #+#    #+#             */
-/*   Updated: 2019/02/17 19:17:57 by osfally          ###   ########.fr       */
+/*   Updated: 2019/02/17 20:09:50 by osfally          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int				main(int argc, char **argv)
 	}
 	map = map_solver(tetrilist);
 	print_map(map);
-	free(map);
+	free_map(map);
 	free_list(tetrilist);
 	return (0);
 }

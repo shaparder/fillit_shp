@@ -6,7 +6,7 @@
 /*   By: osfally <osfally@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/17 18:56:44 by osfally           #+#    #+#             */
-/*   Updated: 2019/02/17 18:58:28 by osfally          ###   ########.fr       */
+/*   Updated: 2019/02/17 20:05:58 by osfally          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,9 @@ t_list			*read_file(int fd)
 			return (free_list(tetrilist));
 		}
 		ft_lstadd(&tetrilist, ft_lstnew(tetripos, (sizeof(int) * 4)));
+		ft_memdel((void **)&tetripos);
 	}
+	ft_memdel((void **)&buf);
 	ft_lstrev(&tetrilist);
 	close(fd);
 	return (tetrilist);

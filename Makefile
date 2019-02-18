@@ -6,7 +6,7 @@
 #    By: osfally <osfally@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/09 09:21:23 by osfally           #+#    #+#              #
-#    Updated: 2019/02/16 13:40:58 by osfally          ###   ########.fr        #
+#    Updated: 2019/02/17 19:36:39 by osfally          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,10 @@ OBJ_DIR		:=	./obj
 LIB_DIR		:=	./libft
 
 # src / obj files
-SRC			:=	main.c
+SRC			:=	main.c \
+				solver.c \
+				reader.c \
+				mem.c
 
 OBJ			:=	$(addprefix $(OBJ_DIR)/,$(SRC:.c=.o))
 
@@ -30,7 +33,7 @@ CFLAGS		:=	-Wall -Wextra -Werror -pedantic -std=c99
 DFLAGS		:=	-fsanitize=address -g
 
 # uncomment next line to use sanitizer debug
-CFLAGS		+=	$(DFLAGS)
+#CFLAGS		+=	$(DFLAGS)
 
 # libraries
 LIB_INC		:=	$(LIB_DIR)/includes
@@ -46,7 +49,7 @@ all:
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@$(CC) $(CFLAGS) -I $(LIB_INC) -I $(INC_DIR) -o $@ -c $<
-	@echo "Objects created."
+	@echo "Object created."
 
 $(NAME): $(OBJ)
 	@$(CC) $(CFLAGS) $(OBJ) -o $(NAME) $(LIB_EXC)
