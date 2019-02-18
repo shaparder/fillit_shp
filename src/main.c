@@ -6,7 +6,7 @@
 /*   By: osfally <osfally@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/08 18:38:50 by osfally           #+#    #+#             */
-/*   Updated: 2019/02/16 21:52:54 by osfally          ###   ########.fr       */
+/*   Updated: 2019/02/17 17:10:52 by osfally          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int				map_filler(t_map *map, t_list *list, char letter)
 				if (map_filler(map, list->next, ++letter))
 					return (1);
 				else
-					return (0);
+					set_tetri(map->array, y, x, list->content, '.');
 			}
 			x++;
 		}
@@ -331,7 +331,7 @@ t_list				*read_file(int fd)
 	return (tetrilist);
 }
 
-t_map				*find_solution(t_list *tetrilist)
+/* t_map				*find_solution(t_list *tetrilist)
 {
 	t_map		*smallest_map;
 	t_map		*map;
@@ -355,7 +355,7 @@ t_map				*find_solution(t_list *tetrilist)
 		i--;
 	}
 	return (smallest_map);
-}
+} */
 
 /*
 ** Entry point for the program.
@@ -376,7 +376,7 @@ int					main(int argc, char **argv)
 		ft_putstr("error\n");
 		return (1);
 	}
-	map = find_solution(tetrilist);
+	map = map_solver(tetrilist);
 	print_map(map);
 	free(map);
 	free_list(tetrilist);
