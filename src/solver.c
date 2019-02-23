@@ -6,7 +6,7 @@
 /*   By: osfally <osfally@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/17 18:58:37 by osfally           #+#    #+#             */
-/*   Updated: 2019/02/17 19:11:54 by osfally          ###   ########.fr       */
+/*   Updated: 2019/02/22 22:04:42 by osfally          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,10 @@ int				map_filler(t_map *map, t_list *list, char letter)
 				if (map_filler(map, list->next, ++letter))
 					return (1);
 				else
+				{
 					set_tetri(map->array, y, x, list->content, '.');
+					--letter;
+				}
 			}
 			x++;
 		}

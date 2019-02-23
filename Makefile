@@ -6,7 +6,7 @@
 #    By: osfally <osfally@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/02/09 09:21:23 by osfally           #+#    #+#              #
-#    Updated: 2019/02/17 19:36:39 by osfally          ###   ########.fr        #
+#    Updated: 2019/02/20 20:01:17 by osfally          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -98,10 +98,3 @@ git: cleanclean
 
 # CLEANCLEANCLEAN
 cleanclean: libclean fclean
-
-infiniterun:
-	sleep 24
-	make all
-	sleep 33
-	make fclean
-	@$(MAKE) infiniterun

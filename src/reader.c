@@ -6,11 +6,18 @@
 /*   By: osfally <osfally@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/17 18:56:44 by osfally           #+#    #+#             */
-/*   Updated: 2019/02/17 20:05:58 by osfally          ###   ########.fr       */
+/*   Updated: 2019/02/22 23:49:21 by osfally          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fillit.h"
+
+t_list			*file_error(char *buf, t_list *tetrilist, int fd)
+{
+	ft_memdel((void **)&buf);
+	close(fd);
+	return (free_list(tetrilist));
+}
 
 // Store the positions of the blocks of the tetriminos in an int array, and puts it top left of the "map".
 int				*get_pos(char *buf)
@@ -99,32 +106,28 @@ int				valid_format(char *buf, int count)
 	return (0);
 }
 
-// Reads the file descriptor and put all the tetriminos in a linked list.
 t_list			*read_file(int fd)
 {
 	int			count;
-	char		letter;
 	char		*buf;
 	t_list		*tetrilist;
 	int			*tetripos;
+	char		last;
 
 	tetrilist = NULL;
 	buf = ft_strnew(21);
-	letter = 'A';
-	while ((count = read(fd, buf, 21)))
+	while ((ft_bzero(buf, 21)) && (count = read(fd, buf, 21)))
 	{
 		if (valid_format(buf, count) != 0 || (tetripos = get_pos(buf)) == NULL)
-		{
-			ft_memdel((void **)&buf);
-			close(fd);
-			return (free_list(tetrilist));
-		}
+			return (file_error(buf, tetrilist, fd));
 		ft_lstadd(&tetrilist, ft_lstnew(tetripos, (sizeof(int) * 4)));
 		ft_memdel((void **)&tetripos);
+		last = buf[20];
 	}
+	if (last == '\n')
+		return (file_error(buf, tetrilist, fd));
 	ft_memdel((void **)&buf);
 	ft_lstrev(&tetrilist);
 	close(fd);
 	return (tetrilist);
 }
-

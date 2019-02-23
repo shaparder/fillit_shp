@@ -6,7 +6,7 @@
 /*   By: osfally <osfally@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/05 17:05:34 by osfally           #+#    #+#             */
-/*   Updated: 2019/02/16 20:00:35 by osfally          ###   ########.fr       */
+/*   Updated: 2019/02/22 23:51:17 by osfally          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void				*ft_memcpy(void *dst, const void *src, size_t len);
 void				ft_memdel(void **ap);
 void				*ft_memmove(void *dst, const void *src, size_t len);
 void				*ft_memset(void *b, int c, size_t len);
-void				ft_bzero(void *s, size_t len);
+int					ft_bzero(void *s, size_t len);
 
 //string functions
 char				*ft_strcat(char *dest, const char *src);
@@ -107,11 +107,5 @@ size_t				ft_lstcount(t_list *lst);
 void				ft_lstswap(t_list *n1, t_list *n2);
 t_list				*ft_lstrot(t_list **lst);
 t_list				*ft_lstrotback(t_list **lst);
-
-//get next line function
-# define BUFF_SIZE 32
-# define MAX_FD 256
-
-int		get_next_line(const int fd, char **line);
 
 #endif
